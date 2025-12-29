@@ -1,20 +1,11 @@
-// ================================
-// MAIN.JS - FINAL VERSION
-// ANTI CASE-SENSITIVE GITHUB
-// ================================
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded", function () {
-
-    // ================================
-    // BACK TO TOP & NAVBAR
-    // ================================
+    // NAVBAR & BACK TO TOP
     const navbar = document.querySelector(".navbar");
     const backToTop = document.getElementById("backToTop");
 
     window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) navbar.classList.add("scrolled");
-        else navbar.classList.remove("scrolled");
-
+        navbar.classList.toggle("scrolled", window.scrollY > 50);
         backToTop.style.display = window.scrollY > 300 ? "block" : "none";
     });
 
@@ -22,82 +13,75 @@ document.addEventListener("DOMContentLoaded", function () {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    // ================================
-    // PORTFOLIO LOAD (ANTI ERROR)
-    // ================================
-    const portfolioGrid = document.querySelector(".portfolio-grid");
-
-    function smartImage(src, title) {
+    // SMART IMAGE (ANTI .jpg / .JPG)
+    function smartImage(src) {
         const img = document.createElement("img");
         img.className = "img-fluid w-100";
-        img.alt = title;
+        img.loading = "lazy";
 
         img.onerror = () => {
             if (src.endsWith(".jpg")) img.src = src.replace(".jpg", ".JPG");
             else if (src.endsWith(".JPG")) img.src = src.replace(".JPG", ".jpg");
             else if (src.endsWith(".jpeg")) img.src = src.replace(".jpeg", ".JPEG");
-            else img.src = "https://via.placeholder.com/400x300?text=No+Image";
         };
 
         img.src = src;
         return img;
     }
 
+    // DATA SESUAI FILE KAMU
     const data = [
-        // FOTO
-        ["foto", "img/foto1.jpg"],
-        ["foto", "img/foto2.jpg"],
-        ["foto", "img/foto3.jpg"],
-        ["foto", "img/foto4.jpg"],
-        ["foto", "img/foto5.jpg"],
-        ["foto", "img/foto6.jpg"],
+        ["foto","img/foto1.jpg"],
+        ["foto","img/foto2.JPG"],
+        ["foto","img/foto3.JPG"],
+        ["foto","img/foto4.jpg"],
+        ["foto","img/foto5.jpg"],
+        ["foto","img/foto6.jpg"],
 
-        // PROJECT
-        ["project", "img/project1.jpg"],
-        ["project", "img/project2.jpg"],
-        ["project", "img/project3.jpg"],
-        ["project", "img/project4.jpg"],
-        ["project", "img/project5.jpg"],
-        ["project", "img/project6.jpg"],
+        ["project","img/project1.JPG"],
+        ["project","img/project2.JPG"],
+        ["project","img/project3.JPG"],
+        ["project","img/project4.JPG"],
+        ["project","img/project5.JPG"],
+        ["project","img/project6.JPG"],
 
-        // SERTIFIKAT
-        ["sertifikat", "img/sertifikat1.jpeg"],
-        ["sertifikat", "img/sertifikat2.jpg"],
-        ["sertifikat", "img/sertifikat3.jpg"],
-        ["sertifikat", "img/sertifikat4.jpg"],
+        ["sertifikat","img/sertifikat1.jpeg"],
+        ["sertifikat","img/sertifikat2.jpg"],
+        ["sertifikat","img/sertifikat3.jpg"],
+        ["sertifikat","img/sertifikat4.jpg"],
 
-        // WEDDING
-        ["wedding", "img/wedding1.jpg"],
-        ["wedding", "img/wedding2.jpg"],
-        ["wedding", "img/wedding3.jpg"],
-        ["wedding", "img/wedding4.jpg"],
-        ["wedding", "img/wedding5.jpg"],
-        ["wedding", "img/wedding6.jpg"],
+        ["wedding","img/wedding1.JPG"],
+        ["wedding","img/wedding2.JPG"],
+        ["wedding","img/wedding3.JPG"],
+        ["wedding","img/wedding4.JPG"],
+        ["wedding","img/wedding5.JPG"],
+        ["wedding","img/wedding6.JPG"]
     ];
 
-    data.forEach(([cat, src], i) => {
+    const grid = document.querySelector(".portfolio-grid");
+    grid.innerHTML = "";
+
+    data.forEach(([cat, src]) => {
         const item = document.createElement("div");
         item.className = `portfolio-item ${cat}`;
 
         const card = document.createElement("div");
         card.className = "portfolio-card";
 
-        const img = smartImage(src, `Item ${i + 1}`);
-
-        card.appendChild(img);
+        card.appendChild(smartImage(src));
         item.appendChild(card);
-        portfolioGrid.appendChild(item);
+        grid.appendChild(item);
     });
 
-    // ================================
-    // FILTER BUTTON
-    // ================================
+    // FILTER
     document.querySelectorAll(".filter-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+            document.querySelectorAll(".filter-btn")
+                .forEach(b => b.classList.remove("active"));
 
+            btn.classList.add("active");
             const filter = btn.dataset.filter;
+
             document.querySelectorAll(".portfolio-item").forEach(item => {
                 item.style.display =
                     filter === "all" || item.classList.contains(filter)
