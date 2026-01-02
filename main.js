@@ -91,4 +91,42 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // LIGHTBOX / MODAL POPUP
+    const modal = document.createElement('div');
+    modal.className = 'portfolio-modal';
+    modal.innerHTML = `
+        <div class="portfolio-modal-backdrop"></div>
+        <div class="portfolio-modal-content" role="dialog" aria-modal="true">
+            <button class="portfolio-modal-close" aria-label="Close">&times;</button>
+            <img class="portfolio-modal-image" src="" alt="Preview">
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const modalImage = modal.querySelector('.portfolio-modal-image');
+    const closeBtn = modal.querySelector('.portfolio-modal-close');
+
+    // Open modal when clicking a portfolio image (event delegation)
+    grid.addEventListener('click', (e) => {
+        const cardEl = e.target.closest('.portfolio-card');
+        if (!cardEl) return;
+        const img = cardEl.querySelector('img');
+        if (!img) return;
+        modalImage.src = img.src;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+
+    function closeModal() {
+        modal.classList.remove('open');
+        modalImage.src = '';
+        document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.querySelector('.portfolio-modal-backdrop').addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+
 });
