@@ -881,3 +881,57 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 1.3rem;
     }
 }
+
+/* ===== PORTFOLIO MODAL ===== */
+.portfolio-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+.portfolio-modal.open {
+    display: flex;
+}
+.portfolio-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(2px);
+}
+.portfolio-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    z-index: 2;
+    padding: 12px;
+}
+.portfolio-modal-image {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    background: #fff;
+}
+.portfolio-modal-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    z-index: 3;
+    background: #fff;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+@media (max-width: 576px) {
+  .portfolio-modal-image {
+    max-height: 70vh;
+  }
+  .portfolio-modal-close { width:36px; height:36px; font-size:18px; top:-10px; right:-10px; }
+}
